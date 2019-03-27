@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -122,7 +121,7 @@ public class Inventory : MonoBehaviour
     public bool RemoveObjects(string _tag, int _quantity) {
         if (_itemInventoryList[_tag] > _quantity) {
             _itemInventoryList[_tag] -= _quantity;
-            _itemSlots[_tag].GetComponent<Slot>().RemoveObjects(_quantity);
+            _itemSlots[_tag].GetComponent<Slot>().RemoveExistingItems(_quantity);
             return true;
         }
         else if (_itemInventoryList[_tag] == _quantity) {

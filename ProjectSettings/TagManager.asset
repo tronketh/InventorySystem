@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ball
   - Inventory
+  - Slot
   layers:
   - Default
   - TransparentFX
