@@ -8,9 +8,9 @@ public class OnScreenInventory : MonoBehaviour
     Dictionary<string, Sprite> _objectIconList;
 
     public GameObject[] _slots;
-    public int _lastSelectedID=-1;
+    public int _lastSelectedID = -1;
 
-    public GameObject ball1,ball2;
+    public GameObject ball1, ball2;
 
     public Sprite ballIcon;
 
@@ -39,7 +39,7 @@ public class OnScreenInventory : MonoBehaviour
         //lastSelectedID=  //Load from some savefile
 
         #region InitialSlotSelected
-        if (_lastSelectedID>=0 && _lastSelectedID<=6) {
+        if (_lastSelectedID >= 0 && _lastSelectedID <= 6) {
             _slots[_lastSelectedID].GetComponent<Slot>().SelectThisSlot();
         }
         if (_lastSelectedID == -1)
@@ -58,10 +58,10 @@ public class OnScreenInventory : MonoBehaviour
     {
         #region ScrollInput
         float _scrollOuput = Input.GetAxis("Mouse ScrollWheel");
-        if (_scrollOuput<0) {
+        if (_scrollOuput < 0) {
             SelectNextSlot();
         }
-        else if (_scrollOuput>0)
+        else if (_scrollOuput > 0)
         {
             SelectPreviousSlot();
         }
@@ -76,7 +76,7 @@ public class OnScreenInventory : MonoBehaviour
                 {
                     string _tag = _slots[_lastSelectedID].GetComponent<Slot>().ItemTag;
                     int _quantityDropped = _slots[_lastSelectedID].GetComponent<Slot>().RemoveItemFully();
-                    Debug.Log(_quantityDropped+" "+ _tag+" in slot " +_lastSelectedID+" has been dropped");
+                    Debug.Log(_quantityDropped + " " + _tag + " in slot " + _lastSelectedID + " has been dropped");
                     //Can be returned for instantiating in real world;
                 }
                 else
@@ -91,10 +91,10 @@ public class OnScreenInventory : MonoBehaviour
 
         #region PickupItem
         if (Input.GetKeyDown(KeyCode.E)) {
-            int pickupQuantity =1; // change this accordingly
+            int pickupQuantity = 1; // change this accordingly
             string tag = "";
             //load gameobject pointing to here in pickupObject
-            GameObject pickupObject=ball1;
+            GameObject pickupObject = ball1;
             if (ball1 == null)
                 pickupObject = ball2;
 
@@ -146,21 +146,23 @@ public class OnScreenInventory : MonoBehaviour
                     }
                 }
             }
-            
+
         }
         #endregion
     }
 
-    #region SlotSelectionMethod
+    #region SlotSelection
     void SelectNextSlot() {
-        if(_lastSelectedID!=-1)
+        if (_lastSelectedID != -1)
             _slots[_lastSelectedID].GetComponent<Slot>().UnSelectSlot();
 
         _lastSelectedID++;
-        if (_lastSelectedID>6) {
+        if (_lastSelectedID > 6) {
             _lastSelectedID %= 7;
         }
         _slots[_lastSelectedID].GetComponent<Slot>().SelectThisSlot();
+        if(!_slots[_lastSelectedID].GetComponent<Slot>().IsEmpty)
+            EquipItem(_slots[_lastSelectedID].GetComponent<Slot>().ItemTag);
     }
     void SelectPreviousSlot()
     {
@@ -169,10 +171,19 @@ public class OnScreenInventory : MonoBehaviour
         else
             _lastSelectedID = 0;
 
-        if(_lastSelectedID==0)
-            _lastSelectedID+=7;
+        if (_lastSelectedID == 0)
+            _lastSelectedID += 7;
         _lastSelectedID--;
         _slots[_lastSelectedID].GetComponent<Slot>().SelectThisSlot();
+        if (!_slots[_lastSelectedID].GetComponent<Slot>().IsEmpty)
+            EquipItem(_slots[_lastSelectedID].GetComponent<Slot>().ItemTag);
+    }
+    /// <summary>
+    /// Equips Item
+    /// </summary>
+    /// <param name="tag"></param>
+    void EquipItem(string tag) {
+
     }
     #endregion
 }
